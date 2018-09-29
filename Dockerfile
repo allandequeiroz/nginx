@@ -1,4 +1,4 @@
-FROM amd64/nginx
+FROM nginx
 
 MAINTAINER Allan de Queiroz <allandequeiroz@gmail.com>
 
