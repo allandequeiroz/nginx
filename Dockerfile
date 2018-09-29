@@ -1,4 +1,4 @@
-FROM nginx
+FROM arm64v8/nginx
 
 MAINTAINER Allan de Queiroz <allandequeiroz@gmail.com>
 
