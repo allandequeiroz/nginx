@@ -10,7 +10,23 @@ RUN apt-get install vim curl -y
 RUN rm -fr /etc/nginx/conf.d/*
 
 # Placing NGinx configurations
-COPY conf/lab.conf /etc/nginx/conf.d
+COPY conf/nginx.conf /etc/nginx/conf.d
 COPY conf/com.allandequeiroz.key /etc/ssl/
 COPY conf/com.allandequeiroz.pem /etc/ssl/
 COPY conf/registry.password /etc/nginx/conf.d/
+
+RUN echo "#!/usr/bin/env bash\n" \
+         "SERVICE='$SERVICE'\n" \
+         "PORT='${PORT}'\n" \
+         "if [[ ${SERVICE}=='ghost' ]]; then\n" \
+         "      sed -i -e 's/HHH/ghost/g' /etc/nginx/conf.d/nginx.conf\n" \
+         "      sed -i -e 's/PPP/2368/g' /etc/nginx/conf.d/nginx.conf\n" \
+         "elif [[ ${SERVICE}=='wiki' ]]; then\n" \
+         "      sed -i -e 's/HHH/wiki/g' /etc/nginx/conf.d/nginx.conf\n" \
+         "      sed -i -e 's/PPP/8080/g' /etc/nginx/conf.d/nginx.conf\n" \
+         "fi" > nginx.sh
+
+RUN chmod +x /tmp/nginx.sh
+RUN /tmp/nginx.sh
+RUN rm /tmp/nginx.sh
+
