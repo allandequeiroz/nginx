@@ -18,10 +18,10 @@ COPY conf/registry.password /etc/nginx/conf.d/
 RUN echo "#!/usr/bin/env bash\n" \
          "SERVICE='$SERVICE'\n" \
          "PORT='${PORT}'\n" \
-         "if [[ ${SERVICE}=='ghost' ]]; then\n" \
+         "if [ \${SERVICE} = 'ghost' ]; then\n" \
          "      sed -i -e 's/HHH/ghost/g' /etc/nginx/conf.d/nginx.conf\n" \
          "      sed -i -e 's/PPP/2368/g' /etc/nginx/conf.d/nginx.conf\n" \
-         "elif [[ ${SERVICE}=='wiki' ]]; then\n" \
+         "elif [ \${SERVICE} = 'wiki' ]; then\n" \
          "      sed -i -e 's/HHH/wiki/g' /etc/nginx/conf.d/nginx.conf\n" \
          "      sed -i -e 's/PPP/8080/g' /etc/nginx/conf.d/nginx.conf\n" \
          "fi" > nginx.sh

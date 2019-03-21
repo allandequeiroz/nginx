@@ -5,7 +5,7 @@ MAINTAINER Allan de Queiroz <allandequeiroz@gmail.com>
 ARG SERVICE
 ARG PORT
 
-WORKDIR /tmp
+WORKDIR /etc/nginx
 
 # Install dependencies 
 RUN apt-get update
@@ -23,14 +23,14 @@ COPY conf/registry.password /etc/nginx/conf.d/
 RUN echo "#!/usr/bin/env bash\n" \
          "SERVICE='$SERVICE'\n" \
          "PORT='${PORT}'\n" \
-         "if [[ ${SERVICE}=='ghost' ]]; then\n" \
+         "if [ \${SERVICE} = 'ghost' ]; then\n" \
          "      sed -i -e 's/HHH/ghost/g' /etc/nginx/conf.d/nginx.conf\n" \
          "      sed -i -e 's/PPP/2368/g' /etc/nginx/conf.d/nginx.conf\n" \
-         "elif [[ ${SERVICE}=='wiki' ]]; then\n" \
+         "elif [ \${SERVICE} = 'wiki' ]; then\n" \
          "      sed -i -e 's/HHH/wiki/g' /etc/nginx/conf.d/nginx.conf\n" \
          "      sed -i -e 's/PPP/8080/g' /etc/nginx/conf.d/nginx.conf\n" \
          "fi" > nginx.sh
 
-RUN chmod +x /tmp/nginx.sh
-RUN /tmp/nginx.sh
-RUN rm /tmp/nginx.sh
+RUN chmod +x /etc/nginx/nginx.sh
+RUN /etc/nginx/nginx.sh
+RUN rm /etc/nginx/nginx.sh
